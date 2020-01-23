@@ -34,7 +34,7 @@ class Gdpr extends Module {
     public function __construct() {
         $this->name = 'gdpr';
         $this->tab = 'administration';
-        $this->version = '1.0';
+        $this->version = '1.0.0';
         $this->author = 'Zido';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => '1.7');
