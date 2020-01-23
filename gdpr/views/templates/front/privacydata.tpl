@@ -1,0 +1,1 @@
+{$gdpr_privacy_data_text}
