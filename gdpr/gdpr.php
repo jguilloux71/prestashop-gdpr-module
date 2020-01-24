@@ -34,7 +34,7 @@ class Gdpr extends Module {
     public function __construct() {
         $this->name = 'gdpr';
         $this->tab = 'administration';
-        $this->version = '1.0.0';
+        $this->version = '1.1.0';
         $this->author = 'Zido';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => '1.7');
@@ -60,8 +60,11 @@ class Gdpr extends Module {
         return parent::install()
             && $this->registerHook('header')
             && Configuration::updateValue('COOKIES_CONSENT_TEXT', $this->l('This website uses cookies to ensure you get the best experience on our website.'))
-            && Configuration::updateValue('COOKIES_PALETTE_BACKGROUND_COLOR', '#8A2F29')
+            && Configuration::updateValue('COOKIES_POPUP_BACKGROUND_COLOR', '#8A2F29')
+            && Configuration::updateValue('COOKIES_POPUP_BACKGROUND_TRANSPARENCY', '80%')
+            && Configuration::updateValue('COOKIES_POPUP_TEXT_COLOR', '#FFFFFF')
             && Configuration::updateValue('COOKIES_BUTTON_BACKGROUND_COLOR', '#101010')
+            && Configuration::updateValue('COOKIES_BUTTON_TEXT_COLOR', '#FFFFFF')
             && Configuration::updateValue('PRIVACY_DATA_RADIO', 'link')
             && Configuration::updateValue('PRIVACY_DATA_LINK', 'http://my.url/privacy-data')
             && Configuration::updateValue('PRIVACY_DATA_TEXT', $this->l('Privacy data text here'), true);
@@ -71,8 +74,11 @@ class Gdpr extends Module {
     public function uninstall() {
         return parent::uninstall()
             && Configuration::deleteByName('COOKIES_CONSENT_TEXT')
-            && Configuration::deleteByName('COOKIES_PALETTE_BACKGROUND_COLOR')
+            && Configuration::deleteByName('COOKIES_POPUP_BACKGROUND_COLOR')
+            && Configuration::deleteByName('COOKIES_POPUP_BACKGROUND_TRANSPARENCY')
+            && Configuration::deleteByName('COOKIES_POPUP_TEXT_COLOR')
             && Configuration::deleteByName('COOKIES_BUTTON_BACKGROUND_COLOR')
+            && Configuration::deleteByName('COOKIES_BUTTON_TEXT_COLOR')
             && Configuration::deleteByName('PRIVACY_DATA_RADIO')
             && Configuration::deleteByName('PRIVACY_DATA_LINK')
             && Configuration::deleteByName('PRIVACY_DATA_TEXT');
@@ -108,8 +114,11 @@ class Gdpr extends Module {
         $this->context->smarty->assign(
             array(
                 'gdpr_cookies_consent_text' => Configuration::get('COOKIES_CONSENT_TEXT'),
-                'gdpr_cookies_palette_background_color' => Configuration::get('COOKIES_PALETTE_BACKGROUND_COLOR'),
+                'gdpr_cookies_popup_background_color' => Configuration::get('COOKIES_POPUP_BACKGROUND_COLOR'),
+                'gdpr_cookies_popup_background_transparency' => Configuration::get('COOKIES_POPUP_BACKGROUND_TRANSPARENCY'),
+                'gdpr_cookies_popup_text_color' => Configuration::get('COOKIES_POPUP_TEXT_COLOR'),
                 'gdpr_cookies_button_background_color' => Configuration::get('COOKIES_BUTTON_BACKGROUND_COLOR'),
+                'gdpr_cookies_button_text_color' => Configuration::get('COOKIES_BUTTON_TEXT_COLOR'),
                 'gdpr_privacy_data_link' => $this->_getPrivacyDataLink(),
                 'gdpr_privacy_data_text' => Configuration::get('PRIVACY_DATA_TEXT')
             )
@@ -124,8 +133,11 @@ class Gdpr extends Module {
  
         if (Tools::isSubmit('submit' . $this->name)) {
             $gdpr_cookies_consent_text = strval(Tools::getValue('COOKIES_CONSENT_TEXT'));
-            $gdpr_cookies_palette_background_color = strval(Tools::getValue('COOKIES_PALETTE_BACKGROUND_COLOR'));
+            $gdpr_cookies_popup_background_color = strval(Tools::getValue('COOKIES_POPUP_BACKGROUND_COLOR'));
+            $gdpr_cookies_popup_background_transparency = strval(Tools::getValue('COOKIES_POPUP_BACKGROUND_TRANSPARENCY'));
+            $gdpr_cookies_popup_text_color = strval(Tools::getValue('COOKIES_POPUP_TEXT_COLOR'));
             $gdpr_cookies_button_background_color = strval(Tools::getValue('COOKIES_BUTTON_BACKGROUND_COLOR'));
+            $gdpr_cookies_button_text_color = strval(Tools::getValue('COOKIES_BUTTON_TEXT_COLOR'));
             $gdpr_privacy_data_radio = strval(Tools::getValue('PRIVACY_DATA_RADIO'));
             $gdpr_privacy_data_link = strval(Tools::getValue('PRIVACY_DATA_LINK'));
             $gdpr_privacy_data_text = strval(Tools::getValue('PRIVACY_DATA_TEXT'));
@@ -135,14 +147,24 @@ class Gdpr extends Module {
                 $output .= $this->displayError( $this->l('Invalid cookies consent message') );
             }
 
-            if (!$gdpr_cookies_palette_background_color || empty($gdpr_cookies_palette_background_color)) {
+            if (!$gdpr_cookies_popup_background_color || empty($gdpr_cookies_popup_background_color)) {
                 $errors += 1;
                 $output .= $this->displayError( $this->l('Invalid value for cookies banner background color') );
+            }
+
+            if (!$gdpr_cookies_popup_text_color || empty($gdpr_cookies_popup_text_color)) {
+                $errors += 1;
+                $output .= $this->displayError( $this->l('Invalid value for cookies banner text color') );
             }
 
             if (!$gdpr_cookies_button_background_color || empty($gdpr_cookies_button_background_color)) {
                 $errors += 1;
                 $output .= $this->displayError( $this->l('Invalid value for cookies button background color') );
+            }
+
+            if (!$gdpr_cookies_button_text_color || empty($gdpr_cookies_button_text_color)) {
+                $errors += 1;
+                $output .= $this->displayError( $this->l('Invalid value for cookies button text color') );
             }
 
             if (($gdpr_privacy_data_radio == 'link') && ((!gdpr_privacy_data_link) || empty($gdpr_privacy_data_link))) {
@@ -157,8 +179,11 @@ class Gdpr extends Module {
 
             if ($errors == 0) {
                 Configuration::updateValue('COOKIES_CONSENT_TEXT', $gdpr_cookies_consent_text);
-                Configuration::updateValue('COOKIES_PALETTE_BACKGROUND_COLOR', $gdpr_cookies_palette_background_color);
+                Configuration::updateValue('COOKIES_POPUP_BACKGROUND_COLOR', $gdpr_cookies_popup_background_color);
+                Configuration::updateValue('COOKIES_POPUP_BACKGROUND_TRANSPARENCY', $gdpr_cookies_popup_background_transparency);
+                Configuration::updateValue('COOKIES_POPUP_TEXT_COLOR', $gdpr_cookies_popup_text_color);
                 Configuration::updateValue('COOKIES_BUTTON_BACKGROUND_COLOR', $gdpr_cookies_button_background_color);
+                Configuration::updateValue('COOKIES_BUTTON_TEXT_COLOR', $gdpr_cookies_button_text_color);
                 Configuration::updateValue('PRIVACY_DATA_RADIO', $gdpr_privacy_data_radio);
                 Configuration::updateValue('PRIVACY_DATA_LINK', $gdpr_privacy_data_link);
                 Configuration::updateValue('PRIVACY_DATA_TEXT', $gdpr_privacy_data_text, true);
@@ -199,7 +224,35 @@ class Gdpr extends Module {
                 array(
                     'type' => 'text',
                     'label' => $this->l('Banner background color'),
-                    'name' => 'COOKIES_PALETTE_BACKGROUND_COLOR',
+                    'name' => 'COOKIES_POPUP_BACKGROUND_COLOR',
+                    'size' => 8,
+                    'required' => true,
+                    'tab' => 'cookies'
+                ),
+                array(
+                    'type' => 'select',
+                    'label' => $this->l('Banner background transparency (in %)'),
+                    'name' => 'COOKIES_POPUP_BACKGROUND_TRANSPARENCY',
+                    'required' => true,
+                    'default_value' => 25,
+                    'options' => array(
+                        'query' => array(
+                            array('id' => 0, 'name' => 0),
+                            array('id' => 5, 'name' => 5),
+                            array('id' => 10, 'name' => 10),
+                            array('id' => 15, 'name' => 15),
+                            array('id' => 20, 'name' => 20),
+                            array('id' => 25, 'name' => 25)
+                        ),
+                        'id' => 'id',
+                        'name' => 'name'
+                    ),
+                    'tab' => 'cookies'
+                ),
+                array(
+                    'type' => 'text',
+                    'label' => $this->l('Banner text color'),
+                    'name' => 'COOKIES_POPUP_TEXT_COLOR',
                     'size' => 8,
                     'required' => true,
                     'tab' => 'cookies'
@@ -208,6 +261,14 @@ class Gdpr extends Module {
                     'type' => 'text',
                     'label' => $this->l('Button background color'),
                     'name' => 'COOKIES_BUTTON_BACKGROUND_COLOR',
+                    'size' => 8,
+                    'required' => true,
+                    'tab' => 'cookies'
+                ),
+                array(
+                    'type' => 'text',
+                    'label' => $this->l('Button text color'),
+                    'name' => 'COOKIES_BUTTON_TEXT_COLOR',
                     'size' => 8,
                     'required' => true,
                     'tab' => 'cookies'
@@ -248,7 +309,7 @@ class Gdpr extends Module {
                     'class' => 'rte',
                     'row' => 32,
                     'autoload_rte' => true,
-					'hint' => $this->l('Invalid characters: ') . ' <>;=#{}',
+                    'hint' => $this->l('Invalid characters: ') . ' <>;=#{}',
                     'tab' => 'privacy-data'
                 )
             ),
@@ -298,8 +359,11 @@ class Gdpr extends Module {
 
         // Load current value
         $helper->fields_value['COOKIES_CONSENT_TEXT'] = Configuration::get('COOKIES_CONSENT_TEXT');
-        $helper->fields_value['COOKIES_PALETTE_BACKGROUND_COLOR'] = Configuration::get('COOKIES_PALETTE_BACKGROUND_COLOR');
+        $helper->fields_value['COOKIES_POPUP_BACKGROUND_COLOR'] = Configuration::get('COOKIES_POPUP_BACKGROUND_COLOR');
+        $helper->fields_value['COOKIES_POPUP_BACKGROUND_TRANSPARENCY'] = Configuration::get('COOKIES_POPUP_BACKGROUND_TRANSPARENCY');
+        $helper->fields_value['COOKIES_POPUP_TEXT_COLOR'] = Configuration::get('COOKIES_POPUP_TEXT_COLOR');
         $helper->fields_value['COOKIES_BUTTON_BACKGROUND_COLOR'] = Configuration::get('COOKIES_BUTTON_BACKGROUND_COLOR');
+        $helper->fields_value['COOKIES_BUTTON_TEXT_COLOR'] = Configuration::get('COOKIES_BUTTON_TEXT_COLOR');
         $helper->fields_value['PRIVACY_DATA_RADIO'] = Configuration::get('PRIVACY_DATA_RADIO');
         $helper->fields_value['PRIVACY_DATA_LINK'] = Configuration::get('PRIVACY_DATA_LINK');
         $helper->fields_value['PRIVACY_DATA_TEXT'] = Configuration::get('PRIVACY_DATA_TEXT');

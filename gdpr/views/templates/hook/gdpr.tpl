@@ -11,26 +11,38 @@
 </div>
 
 <!--
-  cookieconsent: method in views/js/cookies-conent.js
+  cookieconsent: method in views/js/cookies-content.js
 -->
 
 <script>
-    window.cookieconsent.initialise({
-        "palette": {
-            "popup": {
-            "background": "{$gdpr_cookies_palette_background_color}"
-        },
-        "button": {
-            "background": "{$gdpr_cookies_button_background_color}"
+    window.addEventListener(
+        "load",
+        function() {
+            window.wpcc.init({
+                "border": "thin",
+                "colors": {
+                    "popup": {
+                        "background": "{$gdpr_cookies_popup_background_color}",
+                        "text": "{$gdpr_cookies_popup_text_color}",
+                        "border": "{$gdpr_cookies_popup_background_color}"
+                    },
+                    "button": {
+                        "background": "{$gdpr_cookies_button_background_color}",
+                        "text": "{$gdpr_cookies_button_text_color}"
+                    }
+                },
+                "position": "bottom",
+                "content": {
+                    "message": "{$gdpr_cookies_consent_text}",
+                    "link": "{l s='Learn more' mod='gdpr'}",
+                    "href": "{$gdpr_privacy_data_link}",
+                    "button": "{l s='Accept' mod='gdpr'}"
+                },
+                "corners": "large",
+                "transparency": "{$gdpr_cookies_popup_background_transparency}"
+            })
         }
-    },
-    "content": {
-        "dismiss": "{l s='Accept' mod='gdpr'}",
-        "message": "{$gdpr_cookies_consent_text}",
-        "link": "{l s='Learn more' mod='gdpr'}",
-        "href": "{$gdpr_privacy_data_link}"
-    }
-});
+    );
 </script>
 
 <!-- /Block gdpr module -->
