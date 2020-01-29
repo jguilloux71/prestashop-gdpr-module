@@ -19,7 +19,7 @@
  * needs please refer to http://www.prestashop.com for more information.
  *
  *  @author    Zido <jguilloux@gmail.com>
- *  @copyright 2019 Zido
+ *  @copyright 2019-2020 Zido
  *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *  https://github.com/jguilloux71/
  */
@@ -54,6 +54,7 @@ class Gdpr extends Module {
             'COOKIES_POPUP_TEXT_COLOR'              => array($this->l('Banner text color'), '#FFFFFF', false),
             'COOKIES_BUTTON_BACKGROUND_COLOR'       => array($this->l('Button background color'), '#101010', false),
             'COOKIES_BUTTON_TEXT_COLOR'             => array($this->l('Button text color'), '#FFFFFF', false),
+            'COOKIES_DELAY_BEFORE_NEW_POPUP'        => array($this->l('Delay before a new display of the banner (in days)'), '365', false),
             'PRIVACY_DATA_RADIO'                    => array($this->l('Select where is stored your privacy data policy'), 'link', false),
             'PRIVACY_DATA_LINK'                     => array($this->l('Privacy data link'), 'http://my.url/privacy-data', false),
             'PRIVACY_DATA_TEXT'                     => array($this->l('Privacy data text'), $this->l('Privacy data text here'), true)
@@ -140,6 +141,7 @@ class Gdpr extends Module {
                 'gdpr_cookies_popup_text_color' => Configuration::get('COOKIES_POPUP_TEXT_COLOR'),
                 'gdpr_cookies_button_background_color' => Configuration::get('COOKIES_BUTTON_BACKGROUND_COLOR'),
                 'gdpr_cookies_button_text_color' => Configuration::get('COOKIES_BUTTON_TEXT_COLOR'),
+                'gdpr_cookies_delay_before_new_popup' => Configuration::get('COOKIES_DELAY_BEFORE_NEW_POPUP'),
                 'gdpr_privacy_data_link' => $this->_getPrivacyDataLink(),
                 'gdpr_privacy_data_text' => Configuration::get('PRIVACY_DATA_TEXT')
             )
@@ -181,6 +183,13 @@ class Gdpr extends Module {
             if (empty($form_fields[COOKIES_BUTTON_TEXT_COLOR])) {
                 $errors += 1;
                 $output .= $this->displayError( $this->l('Invalid value for cookies button text color') );
+            }
+
+            if (empty($form_fields[COOKIES_DELAY_BEFORE_NEW_POPUP])
+                || intval($form_fields[COOKIES_DELAY_BEFORE_NEW_POPUP]) < 1
+                || intval($form_fields[COOKIES_DELAY_BEFORE_NEW_POPUP]) > 365) {
+                $errors += 1;
+                $output .= $this->displayError( $this->l('Invalid value for cookies banner delay before new display [must be between 1 and 365]') );
             }
 
             if (($form_fields[PRIVACY_DATA_RADIO] == 'link') && ((!$form_fields[PRIVACY_DATA_LINK]) || empty($form_fields[PRIVACY_DATA_LINK]))) {
@@ -292,6 +301,14 @@ class Gdpr extends Module {
                     'label' => $this->options['COOKIES_BUTTON_TEXT_COLOR'][0],
                     'name' => 'COOKIES_BUTTON_TEXT_COLOR',
                     'size' => 8,
+                    'required' => true,
+                    'tab' => 'cookies'
+                ),
+                array(
+                    'type' => 'text',
+                    'label' => $this->options['COOKIES_DELAY_BEFORE_NEW_POPUP'][0],
+                    'name' => 'COOKIES_DELAY_BEFORE_NEW_POPUP',
+                    'size' => 4,
                     'required' => true,
                     'tab' => 'cookies'
                 ),

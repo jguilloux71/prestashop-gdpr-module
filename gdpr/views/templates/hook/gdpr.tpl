@@ -32,6 +32,9 @@
                     }
                 },
                 "position": "bottom",
+                "cookie": {
+                    expiryDays: {$gdpr_cookies_delay_before_new_popup}
+                },
                 "content": {
                     "message": "{$gdpr_cookies_consent_text}",
                     "link": "{l s='Learn more' mod='gdpr'}",
