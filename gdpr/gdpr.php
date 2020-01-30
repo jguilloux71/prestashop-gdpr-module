@@ -34,7 +34,7 @@ class Gdpr extends Module {
     public function __construct() {
         $this->name = 'gdpr';
         $this->tab = 'administration';
-        $this->version = '1.1.0';
+        $this->version = '1.2.0';
         $this->author = 'Zido';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => '1.7');
@@ -135,15 +135,15 @@ class Gdpr extends Module {
         // For translations in template files
         $this->context->smarty->assign(
             array(
-                'gdpr_cookies_consent_text' => Configuration::get('COOKIES_CONSENT_TEXT'),
-                'gdpr_cookies_popup_background_color' => Configuration::get('COOKIES_POPUP_BACKGROUND_COLOR'),
+                'gdpr_cookies_consent_text'                  => Configuration::get('COOKIES_CONSENT_TEXT'),
+                'gdpr_cookies_popup_background_color'        => Configuration::get('COOKIES_POPUP_BACKGROUND_COLOR'),
                 'gdpr_cookies_popup_background_transparency' => Configuration::get('COOKIES_POPUP_BACKGROUND_TRANSPARENCY'),
-                'gdpr_cookies_popup_text_color' => Configuration::get('COOKIES_POPUP_TEXT_COLOR'),
-                'gdpr_cookies_button_background_color' => Configuration::get('COOKIES_BUTTON_BACKGROUND_COLOR'),
-                'gdpr_cookies_button_text_color' => Configuration::get('COOKIES_BUTTON_TEXT_COLOR'),
-                'gdpr_cookies_delay_before_new_popup' => Configuration::get('COOKIES_DELAY_BEFORE_NEW_POPUP'),
-                'gdpr_privacy_data_link' => $this->_getPrivacyDataLink(),
-                'gdpr_privacy_data_text' => Configuration::get('PRIVACY_DATA_TEXT')
+                'gdpr_cookies_popup_text_color'              => Configuration::get('COOKIES_POPUP_TEXT_COLOR'),
+                'gdpr_cookies_button_background_color'       => Configuration::get('COOKIES_BUTTON_BACKGROUND_COLOR'),
+                'gdpr_cookies_button_text_color'             => Configuration::get('COOKIES_BUTTON_TEXT_COLOR'),
+                'gdpr_cookies_delay_before_new_popup'        => Configuration::get('COOKIES_DELAY_BEFORE_NEW_POPUP'),
+                'gdpr_privacy_data_link'                     => $this->_getPrivacyDataLink(),
+                'gdpr_privacy_data_text'                     => Configuration::get('PRIVACY_DATA_TEXT')
             )
         );
         return $this->display(__FILE__, 'gdpr.tpl');
@@ -237,119 +237,119 @@ class Gdpr extends Module {
         $fields_form[0]['form'] = array(
             'legend' => array(
                 'title' => $this->l('Settings'),
-                'icon' => 'icon-cogs'
+                'icon'  => 'icon-cogs'
             ),
             'tabs' => array(
-                'cookies' => $this->l('Cookies consent settings'),
+                'cookies'      => $this->l('Cookies consent settings'),
                 'privacy-data' => $this->l('Privacy data settings'),
             ),
             'input' => array(
                 array(
-                    'type' => 'text',
-                    'label' => $this->options['COOKIES_CONSENT_TEXT'][0],
-                    'name' => 'COOKIES_CONSENT_TEXT',
-                    'size' => 100,
+                    'type'     => 'text',
+                    'label'    => $this->options['COOKIES_CONSENT_TEXT'][0],
+                    'name'     => 'COOKIES_CONSENT_TEXT',
+                    'size'     => 100,
                     'required' => true,
-                    'tab' => 'cookies'
+                    'tab'      => 'cookies'
                 ),
                 array(
-                    'type' => 'text',
-                    'label' => $this->options['COOKIES_POPUP_BACKGROUND_COLOR'][0],
-                    'name' => 'COOKIES_POPUP_BACKGROUND_COLOR',
-                    'size' => 8,
+                    'type'     => 'text',
+                    'label'    => $this->options['COOKIES_POPUP_BACKGROUND_COLOR'][0],
+                    'name'     => 'COOKIES_POPUP_BACKGROUND_COLOR',
+                    'size'     => 8,
                     'required' => true,
-                    'tab' => 'cookies'
+                    'tab'      => 'cookies'
                 ),
                 array(
-                    'type' => 'select',
-                    'label' => $this->options['COOKIES_POPUP_BACKGROUND_TRANSPARENCY'][0],
-                    'name' => 'COOKIES_POPUP_BACKGROUND_TRANSPARENCY',
-                    'required' => true,
+                    'type'          => 'select',
+                    'label'         => $this->options['COOKIES_POPUP_BACKGROUND_TRANSPARENCY'][0],
+                    'name'          => 'COOKIES_POPUP_BACKGROUND_TRANSPARENCY',
+                    'required'      => true,
                     'default_value' => 20,
-                    'options' => array(
+                    'options'       => array(
+                        'id'    => 'id',
+                        'name'  => 'name',
                         'query' => array(
-                            array('id' => 0, 'name' => 0),
-                            array('id' => 5, 'name' => 5),
+                            array('id' =>  0, 'name' =>  0),
+                            array('id' =>  5, 'name' =>  5),
                             array('id' => 10, 'name' => 10),
                             array('id' => 15, 'name' => 15),
                             array('id' => 20, 'name' => 20),
                             array('id' => 25, 'name' => 25)
-                        ),
-                        'id' => 'id',
-                        'name' => 'name'
+                        )
                     ),
                     'tab' => 'cookies'
                 ),
                 array(
-                    'type' => 'text',
-                    'label' => $this->options['COOKIES_POPUP_TEXT_COLOR'][0],
-                    'name' => 'COOKIES_POPUP_TEXT_COLOR',
-                    'size' => 8,
+                    'type'     => 'text',
+                    'label'    => $this->options['COOKIES_POPUP_TEXT_COLOR'][0],
+                    'name'     => 'COOKIES_POPUP_TEXT_COLOR',
+                    'size'     => 8,
                     'required' => true,
-                    'tab' => 'cookies'
+                    'tab'      => 'cookies'
                 ),
                 array(
-                    'type' => 'text',
-                    'label' => $this->options['COOKIES_BUTTON_BACKGROUND_COLOR'][0],
-                    'name' => 'COOKIES_BUTTON_BACKGROUND_COLOR',
-                    'size' => 8,
+                    'type'     => 'text',
+                    'label'    => $this->options['COOKIES_BUTTON_BACKGROUND_COLOR'][0],
+                    'name'     => 'COOKIES_BUTTON_BACKGROUND_COLOR',
+                    'size'     => 8,
                     'required' => true,
-                    'tab' => 'cookies'
+                    'tab'      => 'cookies'
                 ),
                 array(
-                    'type' => 'text',
-                    'label' => $this->options['COOKIES_BUTTON_TEXT_COLOR'][0],
-                    'name' => 'COOKIES_BUTTON_TEXT_COLOR',
-                    'size' => 8,
+                    'type'     => 'text',
+                    'label'    => $this->options['COOKIES_BUTTON_TEXT_COLOR'][0],
+                    'name'     => 'COOKIES_BUTTON_TEXT_COLOR',
+                    'size'     => 8,
                     'required' => true,
-                    'tab' => 'cookies'
+                    'tab'      => 'cookies'
                 ),
                 array(
-                    'type' => 'text',
-                    'label' => $this->options['COOKIES_DELAY_BEFORE_NEW_POPUP'][0],
-                    'name' => 'COOKIES_DELAY_BEFORE_NEW_POPUP',
-                    'size' => 4,
+                    'type'     => 'text',
+                    'label'    => $this->options['COOKIES_DELAY_BEFORE_NEW_POPUP'][0],
+                    'name'     => 'COOKIES_DELAY_BEFORE_NEW_POPUP',
+                    'size'     => 4,
                     'required' => true,
-                    'tab' => 'cookies'
+                    'tab'      => 'cookies'
                 ),
                 array(
-                    'type' => 'radio',
-                    'label' => $this->options['PRIVACY_DATA_RADIO'][0],
-                    'name' => 'PRIVACY_DATA_RADIO',
+                    'type'     => 'radio',
+                    'label'    => $this->options['PRIVACY_DATA_RADIO'][0],
+                    'name'     => 'PRIVACY_DATA_RADIO',
                     'required' => true,
-                    'class' => 't',
-                    'tab' => 'privacy-data',
-                    'is_bool' => true,
-                    'values' => array(
+                    'class'    => 't',
+                    'tab'      => 'privacy-data',
+                    'is_bool'  => true,
+                    'values'   => array(
                         array(
-                            'id' => 'privacy-data-radio-link',
+                            'id'   => 'privacy-data-radio-link',
                             'value'=> 'link',
                             'label'=> $this->l('From the link below'),
                         ),
                         array(
-                            'id' => 'privacy-data-radio-text',
+                            'id'   => 'privacy-data-radio-text',
                             'value'=> 'custom-text',
                             'label'=> $this->l('From your custom text below'),
                         ),
                     ),
                 ),
                 array(
-                    'type' => 'text',
+                    'type'  => 'text',
                     'label' => $this->options['PRIVACY_DATA_LINK'][0],
-                    'name' => 'PRIVACY_DATA_LINK',
-                    'size' => 8,
-                    'tab' => 'privacy-data'
+                    'name'  => 'PRIVACY_DATA_LINK',
+                    'size'  => 8,
+                    'tab'   => 'privacy-data'
                 ),
                 array(
-                    'type' => 'textarea',
-                    'label' => $this->options['PRIVACY_DATA_TEXT'][0],
-                    'name' => 'PRIVACY_DATA_TEXT',
-                    'lang' => 0,
-                    'class' => 'rte',
-                    'row' => 32,
+                    'type'         => 'textarea',
+                    'label'        => $this->options['PRIVACY_DATA_TEXT'][0],
+                    'name'         => 'PRIVACY_DATA_TEXT',
+                    'lang'         => 0,
+                    'class'        => 'rte',
+                    'row'          => 32,
                     'autoload_rte' => true,
-                    'hint' => $this->l('Invalid characters: ') . ' <>;=#{}',
-                    'tab' => 'privacy-data'
+                    'hint'         => $this->l('Invalid characters: ') . ' <>;=#{}',
+                    'tab'          => 'privacy-data'
                 )
             ),
             'submit' => array(
@@ -386,11 +386,14 @@ class Gdpr extends Module {
         $helper->toolbar_btn = array(
             'save' => array(
                 'desc' => $this->l('Save'),
-                'href' => AdminController::$currentIndex . '&configure=' . $this->name . '&save' . $this->name.
-                '&token='.Tools::getAdminTokenLite('AdminModules'),
+                'href' => AdminController::$currentIndex .
+                            '&configure=' . $this->name .
+                            '&save' . $this->name .
+                            '&token=' . Tools::getAdminTokenLite('AdminModules'),
             ),
             'back' => array(
-                'href' => AdminController::$currentIndex . '&token=' . Tools::getAdminTokenLite('AdminModules'),
+                'href' => AdminController::$currentIndex .
+                            '&token=' . Tools::getAdminTokenLite('AdminModules'),
                 'desc' => $this->l('Back to list')
             )
         );
